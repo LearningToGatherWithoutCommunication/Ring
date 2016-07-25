@@ -1,3 +1,0 @@
-# Ring
-# Ring
-# Ring
