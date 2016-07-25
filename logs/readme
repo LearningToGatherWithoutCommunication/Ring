@@ -1,0 +1,14 @@
+Logs are stored in thus folder. They can be read as follows :
+
+$0_D$1_P$2_S$3_L$4-$5
+$0: id
+$1: run duration in number of cycles
+$2: total number of agents
+$3: size of the ring
+$4: learning rate when fixed
+$5: date of the end of the run
+
+To plot, write the name of the file to read in logsLoc, then run plotRun.py
+e.g.:
+$ echo logsFile/run.log >logsLoc
+$ python3 plotRun.py

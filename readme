@@ -1,0 +1,3 @@
+To run a learning session set the correct parameters in parameters.conf then run runFish.py.
+logs are stored in logs.
+parameters.conf already contains the default parameters.
