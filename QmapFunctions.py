@@ -26,7 +26,9 @@ def discreteDistance(Q1,Q2):
     d = 0
     for (state,actionDict) in Q1.items():
             if state in Q2.keys():
-                if max(Q1[state]) != max(Q2[state]):
+                 m1 = max([(v,a) for (a,v) in Q1[state].items()])[1]
+                 m2 = max([(v,a) for (a,v) in Q2[state].items()])[1]
+                 if m2 != m1:
                     d = d + 1 
             else:
                 d = d + 1
