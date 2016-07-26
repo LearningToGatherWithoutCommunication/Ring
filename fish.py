@@ -173,6 +173,10 @@ def policy(self):
 def updateLearning(self,date):
 
 #Updating the state
+    #The agent is not yet initialized
+    if self.currentState == None:
+        self.currentState = self.getState(self)
+        return 
     self.lastState = self.currentState
     self.currentState = self.getState(self)
     self.posHistory.append(self.pos)
