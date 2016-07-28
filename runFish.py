@@ -6,7 +6,7 @@ from fish import *
 #to copy Qmaps
 import copy
 import math
-#To date the end of the learnin phase
+#To date the end of the learning phase
 import time
 #To write logs
 import pickle
@@ -190,7 +190,6 @@ for i in range(learnersNumber):
                         alpha = alpha,
                         criticalSize = minimumDistanceToBeInGroup,
                         ))
-
 pop = adults + learners
 
 #Initializing position a vision (i.e. the other agents that are seen by the agent)
@@ -217,6 +216,8 @@ for f in adults:
     f.learningRate = 0.0
     f.exploreRateMutable = False
     f.exploreRate = 0.0
+#   f.policy = deterministicPolicy
+
 ################################################
 #            Main Loop                         #
 ################################################
@@ -271,6 +272,9 @@ for t in range(runDuration):
 ################################################
 #                 After Run process            #
 ################################################
+
+print([len(f.Q) for f in adults])
+print(distanceMatrix([f.Q for f in pop],discreteDistance))
 
 #Computing the average number of rewards
 #Generating file name and unique ID

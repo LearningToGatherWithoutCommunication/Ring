@@ -170,6 +170,48 @@ def policy(self):
         else :
             self.nextAction = maxAction
 
+#Deterministic policy to compare deterministic algorithm to learned behavior
+def deterministicPolicy(self):
+# compute barycenter of a list of points on a ring
+    def barycenter(list,ringSize):
+        #computing partial barycenters on each half of the ring
+        p1 = [ i for i in list if i < ringSize/2]
+        p2 = [ i for i in list if i > ringSize/2]
+        if p1 !=[]:
+            b1,w1 = sum(p1) / len(p1),len(p1)
+        else :
+            b1,w1 = 0,0
+        if p2 != []:
+            b2,w2 = sum(p2) / len(p2),len(p2)
+        else :
+            b2,w2 = 0,0
+        tempBar1 = (b1 * w1 + b2 * w2) / (2 * len(list))
+        tempBar2 = (b1 * w1 + (ringSize - b2) * w1) / (2 *len(list))
+        # Composing the two partial barycenters in one by choosing the point
+        # that minimizes square distance between the two of them. 
+        if w1 > 0:
+            d1 = min((tempBar1 - b1) % ringSize,(b1 - tempBar1) % ringSize)
+            d2 = min((tempBar2 - b1) % ringSize,(b1 - tempBar2) % ringSize)
+            if d1 < d2:
+                return tempBar1
+            else :
+                return tempBar2
+        else :
+            d1 = min((tempBar1 - b2) % ringSize,(b2 - tempBar1) % ringSize)
+            d2 = min((tempBar2 - b2) % ringSize,(b2 - tempBar2) % ringSize)
+            if d1 < d2:
+                return tempBar1
+            else :
+                return tempBar2
+    pos = [f.pos for f in self.vision]
+    groupBarycenter = barycenter(pos,self.ringSize)
+    if abs(groupBarycenter - self.pos) % self.ringSize < 1:
+        self.nextAction = 'dontMove'
+    elif (groupBarycenter - self.pos) % self.ringSize <(self.pos -groupBarycenter) %self.ringSize:
+        self.nextAction = 'left'
+    else:
+        self.nextAction = 'right'
+
 def updateLearning(self,date):
 
 #Updating the state
@@ -177,6 +219,7 @@ def updateLearning(self,date):
     if self.currentState == None:
         self.currentState = self.getState(self)
         return 
+    
     self.lastState = self.currentState
     self.currentState = self.getState(self)
     self.posHistory.append(self.pos)
@@ -205,6 +248,7 @@ def updateLearning(self,date):
     if reward == 0 or self.learningRate == 0:
         return
     else:
+        #expectedCumulativeReward = max([self.Q.get(self.currentState,{}).get(action,0) for action in self.actions.keys()])
         expectedCumulativeReward = 0
 
         #unloading eligibility trace
@@ -316,6 +360,7 @@ class Fish:
 
     def act(self) :
         self.lastAction = self.nextAction
+#        print('act:'+self.nextAction)
         self.actions[self.nextAction](self)
         self.nextAction = None
 
