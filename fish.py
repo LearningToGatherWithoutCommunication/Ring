@@ -360,7 +360,6 @@ class Fish:
 
     def act(self) :
         self.lastAction = self.nextAction
-#        print('act:'+self.nextAction)
         self.actions[self.nextAction](self)
         self.nextAction = None
 

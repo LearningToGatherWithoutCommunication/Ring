@@ -15,7 +15,6 @@ from QmapFunctions import *
 
 from sys import argv
 import os
-import shutil
 
 ################################################
 #                 Parameters                   #
@@ -105,10 +104,10 @@ except (ValueError,KeyError):
 ################################################
 #                 Useful values                #
 ################################################
-cycleLength =  cycleLengthInRingSize * ringSize
-runDuration = runDurationInCycles * cycleLength
-stepToStopExploration = pointToStopExploration * runDuration
-alpha = decreaseValue * runDuration * decreasePoint / (1 - decreaseValue)
+cycleLength =  cycleLengthInRingSize * ringSize #Cycle lenght in number of steps
+runDuration = runDurationInCycles * cycleLength #Run duration in number of steps
+stepToStopExploration = pointToStopExploration * runDuration #Step where to stop the exploration of new states and evaluate the behavior of the agents.
+alpha = decreaseValue * runDuration * decreasePoint / (1 - decreaseValue) #define the parameter for exploration rate decay in alpha/(alpha+t)
 
 #Reset position of the fishes and the cycle informations
 def reset(pop,date,cycleLength):
@@ -273,8 +272,8 @@ for t in range(runDuration):
 #                 After Run process            #
 ################################################
 
-print([len(f.Q) for f in adults])
-print(distanceMatrix([f.Q for f in pop],discreteDistance))
+#print([len(f.Q) for f in adults])
+#print(distanceMatrix([f.Q for f in pop],discreteDistance))
 
 #Computing the average number of rewards
 #Generating file name and unique ID
@@ -287,9 +286,6 @@ timeNow = time.strftime("%Y-%m-%d %H-%M-%S", time.localtime())
 #Creating folder to store files
 pathToFile = pathToLogs + str(idFile) + '_D' + str(runDurationInCycles) + '_P' + str(popSize) + '_S'+ str(ringSize) + '_L' + str(learningRate) + '-' + timeNow+'/'
 os.makedirs(pathToFile, exist_ok = True)
-#Keeping a copy of source code that generated the logs
-shutil.copyfile(script,pathToFile+script)
-shutil.copyfile('fish.py',pathToFile+'fish.py')
 
 logRun = open(pathToFile+'run.log','wb')
 

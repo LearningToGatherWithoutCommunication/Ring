@@ -1,0 +1,76 @@
+This project runs with python 3.
+
+To run a learning session:
+-open parameters.conf and set the desired parameters.
+-execute file 'runFish.py' with python 3.
+-go into logs folder
+-there are stored the logs files, one folder per run.
+-the logs folders names follows this pattern : $0_D$1_P$2_S$3_L$4-$5 where '$i' is a variable and we have:
+    $0: id
+    $1: run duration in number of cycles
+    $2: total number of agents
+    $3: size of the ring
+    $4: learning rate when fixed
+    $5: date of the end of the run
+-each log folder contains:
+    -Fish$i the files containing data about the agent (in particular QMaps)
+    -run.log that contains the global logs
+-to display default plot execute 'plotRun.py fileToPlotName' on a run.log file with python3. By default, the plots are the number of neighbor at each postion for 3 cycle at beginnind, middle and end of learning phase, the time to form group and the min and max number of neighbor. Ways to plot other data are explained in logs folder readme.
+Examples of execution then plot:
+>python3 runFish.py
+>cd logs
+>python3 plotRun.py 245_D1000_P100_S13_L0.1-2016-07-26\ 16-26-16OK/run.log
+
+The execution of the program is the following:
+    -runFish.py parses the parameters.conf file in order to obtain the parameters of execution
+    -variables are initialized
+    -main loop of the program is executed
+    -data is written in the log folder in binary format
+
+below we list each file of the project and its content.
+
+QMapsFunctions.py: functions to compare QMaps and compute distances between QMaps.
+
+curves.py: compute curves that are smoothed and contains less points than the list given as parameters
+
+firstTimeInGroup.py: plots the time needed to create a group
+
+loadLogs.py: reads the logs stored in binary files and returns the data contained in thses logs. Data returned is :
+    infos: parameters of the run
+    sumSquaredDistanceHist: The history of the sum of squared distances between the agents
+    firstTimeInGroupHist: History of the first date at which a group is formed in each cycle. python list
+    maxNumberOfNeighour: History of the maximum number of neighbour among the agents. python list
+    minNumberOfNeighour: History of the minimum number of neighbour among the agents. python list
+    posHistoryA: History of the position of the 'Adults' i.e. the agents that are not learning but using already filled QMaps.
+    posHistoryL: History of the position of the 'learners' i.e. the agents that are learning and are given emmpty QMaps at the beginning. 
+    Both posHistory objects are python lists of lists of position. e.g  posHistory[i[j] contains the position of fish i at step j.
+
+
+neighbourNumberPlotFunction.py: plots the max and min number of neighbour in a group
+
+parameters.conf: Contains the values of the parameters for a learning session. In this file its possible to change :
+    -Number of learning agents
+    -Number of non learning agents
+    -Size of the ring
+    -Duration of a cycle
+    -Duration of the learning phae
+    -Reward values
+    -Minimum number of agent to consider a group
+    -Maximum distance between agents to consider a group
+    -Learning and explore rate evolution
+    -path to store logs and load QMaps from files.
+plotFish.py: Print the QMap of a given agent
+
+plotRun.py: Displays plots of desired data. Default displayed data is position, time to form group and number of neighbours.
+
+positionPlotFunction: Scripts to plots in different modes the positions of the agents.
+
+runFish.py: Main programm used to run the learning and evaluation of the agents. This file is divided inot the following sections:
+    -Dependencies: loading the needed libraries
+    -Parameters: Parsing parameters of the run from the configuration file. default configuration file is parameters.conf. It's possible to use another configuration file by passing it as an argument of runFish. e.g. instead of executing 'python3 runFish.py' (default conf file) run 'python3 runFish.y nameOfNewConfFile'
+    -Useful Value: define some functions and value from the parameters.
+    -Variable initialization: initializes the useful variables, creates new agents and load QMaps for the adults (that do not learn).
+    -Main Loop: For each step compute new positions and QMaps for agents and compute some metrics.
+    -After Run process: Write logs into files.
+
+fish.py: 

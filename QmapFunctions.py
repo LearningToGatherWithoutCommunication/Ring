@@ -1,4 +1,3 @@
-#Functions to compare QMaps distribution
 import math
 
 def euclideanDistance(Q1,Q2):
@@ -26,9 +25,9 @@ def discreteDistance(Q1,Q2):
     d = 0
     for (state,actionDict) in Q1.items():
             if state in Q2.keys():
-                 m1 = max([(v,a) for (a,v) in Q1[state].items()])[1]
-                 m2 = max([(v,a) for (a,v) in Q2[state].items()])[1]
-                 if m2 != m1:
+                m1 = max([(v,a) for (a,v) in Q1[state].items()])[1]
+                m2 = max([(v,a) for (a,v) in Q2[state].items()])[1]
+                if m2 != m1:
                     d = d + 1 
             else:
                 d = d + 1
