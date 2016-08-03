@@ -1,4 +1,4 @@
-#Print the QMap of a given agent
+#Print the QMap of a given agent from the corresponding Fish file given as argument e.g.: >python3 plotFish Fish0
 import matplotlib.pyplot as plt
 import pickle
 from sys import argv

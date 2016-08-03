@@ -1,6 +1,6 @@
 # Plot the minimum and maximum number of neighbours. 
 import matplotlib.pyplot as plt
-
+import statistics as stat
 from curves import *
 def plotNumberOfNeighbour(infos,minNumberOfNeighbour,maxNumberOfNeighbour):
  
@@ -20,11 +20,25 @@ def plotNumberOfNeighbour(infos,minNumberOfNeighbour,maxNumberOfNeighbour):
             cycleLength
             ] = infos
 
-    plt.plot(smoothCurve(minNumberOfNeighbour))
-    plt.plot(smoothCurve(maxNumberOfNeighbour))
-    plt.plot(smoothCurve([minSizeOfGroup for i in range(100)]))
-    plt.xlabel('Time in fractions of learning phase')
+    x,y,w = smoothCurve([minSizeOfGroup for i in range(runDuration)])
+    plt.plot([t/(1000*cycleLength) for t in x],[10 * n for n in y],'r--')
+
+    x,y,w = smoothCurve(minNumberOfNeighbour)
+    data = [10*n for n in y]
+    print('Average is {0:.1f}\%, median is {1:.1f}\% and std is {2:.1f}\% for min neighbor.'.format(stat.mean(data),stat.median(data),stat.pstdev(data)))
+    plt.plot([t/(1000*cycleLength) for t in x],[10 * n for n in y],'w^')
+
+    x,y,w = smoothCurve(maxNumberOfNeighbour)
+    data = [10*n for n in y]
+    print('Average is {0:.1f}\%, median is {1:.1f}\% and std is {2:.1f}\% for max neighbor.'.format(stat.mean(data),stat.median(data),stat.pstdev(data)))
+    plt.plot([t/(1000*cycleLength) for t in x],[10 * n for n in y],'ks')
+
+    plt.xlabel('Time in thousands of cycles')
     plt.ylabel('Maximum and minimum number of neighbors among agents')
-    plt.title('Existence of group during learning phase')
+    plt.title('Existence of group.')
+    plt.xlim(0,(runDuration+10)/(1000*cycleLength))
+    plt.ylim(0,100)
+    plt.tight_layout()
+    print('Each point is an average over '+str(w)+' iterations.')
     plt.show()
     return

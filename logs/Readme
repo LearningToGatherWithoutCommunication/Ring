@@ -1,0 +1,2 @@
+To plot indicate the path to the log file in logsLoc then run 'python plotRun.py'
+The plot-.py are scripts to plot only a particular metric.
