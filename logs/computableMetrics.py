@@ -21,7 +21,7 @@ def plotMetrics(infos,posHistoryA,posHistoryL):
     metric1 = []
     for i in range(runDuration):
         metric1.append(0)
-    plt.plot(matric1)
+    plt.plot(metric1)
     plt.show()
     return
 
