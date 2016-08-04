@@ -77,52 +77,10 @@ def sectorInit(self) :
     
     return sectors
 
-#Returns a dict indexed by the names of the sectors and containing positions corresponding to the key sector as a value
-def sectorInit2(self):
-    sectors = {}
-
-#Sizes of sectors :
-    centralSectorSize = self.criticalSize * 2 + 1
-    sectorsProportions = [0.16,0.21,0.26]
-    [nearSectorSize,farSectorSize,unknownSectorSize] = probaistributionToDiscreteDistribution(sectorsDistribution,self.ringSize - centralSectorSize)
-    sectors['central'] = []
-    sectors['nearLeft'] = []
-    sectors['nearRight'] = []
-    sectors['farLeft'] = []
-    sectors['farRight'] = []
-    sectors['unknown'] = []
-    i = - math.floor(centralSectorSize/2)
-    for j in range(centralSectorSize):
-        sectors['central'].append(i % self.ringSize)
-        i += 1
-    for j in range(nearSectorSize):
-        sectors['nearLeft'].append(i)
-        i += 1
-    for j in range(farSectorSize):
-        sectors['farLeft'].append(i)
-        i += 1
-    for j in range(unknownSectorSize):
-        sectors['unknown'].append(i)
-        i += 1
-    for j in range(farSectorSize):
-        sectors['farRight'].append(i)
-        i += 1
-    for j in range(nearSectorSize):
-        sectors['nearRight'].append(i)
-        i += 1
-    print(sectors)
-    return sectors
-
 #Returns the sector in which is a fish relatively to the agent.
 def getSector(self,fish):
     relativePos = (fish.pos - self.pos) % self.ringSize
     return self.sectors[relativePos]
-
-def getSector2(self,fish):
-    relativePos = (fish.pos - self.pos) % self.ringSize
-    for sector,sectorPos in self.sectors.items():
-        if relativePos in sectorPos:
-            return sector
 
 #Return the state of the environment as the agent sees it.
 def getState(self):

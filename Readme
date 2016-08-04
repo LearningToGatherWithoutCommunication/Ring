@@ -1,4 +1,5 @@
 This project runs with python 3.
+Program written with paper Learning to Gather Without Communication, please look at it.
 
 To run a learning session:
 -open parameters.conf and set the desired parameters.
@@ -65,6 +66,8 @@ plotRun.py: Displays plots of desired data. Default displayed data is position, 
 
 positionPlotFunction: Scripts to plots in different modes the positions of the agents.
 
+computableMetrics.py: a script to plot custom metrics from the position of each agent. Both posHistory objects are python lists of lists of position. e.g  posHistory[i[j] contains the position of fish i at step j.
+
 runFish.py: Main programm used to run the learning and evaluation of the agents. This file is divided inot the following sections:
     -Dependencies: loading the needed libraries
     -Parameters: Parsing parameters of the run from the configuration file. default configuration file is parameters.conf. It's possible to use another configuration file by passing it as an argument of runFish. e.g. instead of executing 'python3 runFish.py' (default conf file) run 'python3 runFish.y nameOfNewConfFile'
@@ -73,4 +76,14 @@ runFish.py: Main programm used to run the learning and evaluation of the agents.
     -Main Loop: For each step compute new positions and QMaps for agents and compute some metrics.
     -After Run process: Write logs into files.
 
-fish.py: 
+fish.py: File containing the implementation of the agents. Here are defined : 
+    -The granularity of the approximation of the number of agents : i.e. the number of representant.
+    -The specifications of sectors approximation i.e. limits and size of the sectors.
+    -The implementation of the computation of a state (i.e. : the way to build a state from exact information)
+    -The implementation of the decision policies (deterministicPolicy and epsiloni greedy policy)
+    -The implementation of information about the environment and Q-value update
+    -The implementation of the reward function
+    -The implementation of the movement function ('goLeft, 'goRight', 'dontMove')
+    -A distance function between fishes.
+    -A logs generation function (to store Qmaps).
+
